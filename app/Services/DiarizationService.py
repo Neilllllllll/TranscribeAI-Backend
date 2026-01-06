@@ -12,4 +12,4 @@ class DiarizationService:
         }
         response = requests.post(f"{self.BASE_URL}/diarize", files=files)
         response.raise_for_status()
-        return response.json().get("diarization")
+        return response.json()
