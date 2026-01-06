@@ -10,7 +10,7 @@ class JobService:
         job = JobModel(
             uuid=_uuid,
             file_path=_file_path,
-            job_type=_type,
+            type=_type,
             status=_status,
             settings=_settings
         )

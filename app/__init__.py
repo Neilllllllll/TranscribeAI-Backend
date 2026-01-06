@@ -75,9 +75,6 @@ def create_app_api(config_class):
         if retries <= 0:
             print("Erreur : Impossible de se connecter à Postgres après plusieurs tentatives.")
 
-    # Configuration spécifique à l'API peut être ajoutée ici   
-    # Configuration du CORS
-    CORS(app, resources={r"/api/*": {"origins": app.config['FRONTEND_URL']}}, supports_credentials=True)
     from app.Services.RedisQueueService import RedisQueueService
     app.extensions['redis_batch_queue_service'] = RedisQueueService(app.config['REDIS_URL'], "batch_job_queue")
     app.extensions['redis_diarization_queue_service'] = RedisQueueService(app.config['REDIS_URL'], "diarization_job_queue")

@@ -1,4 +1,4 @@
-from flask import request, current_app
+from flask import request
 from functools import wraps
 from app.Helpers.responses import error
 

@@ -23,12 +23,11 @@ def worker_loop():
             time.sleep(5)
             with open(audio_file_path, 'rb') as f:
                 audio_file = f
-                # Envoyer le fichier audio au service Whisper pour transcription
-                # transcription = whisperx_diarize_service.send_to_whisper_service(audio_file)
-                transcription = "tr diarize"
+                # Envoyer le fichier audio au service Whisperx pour diarization
+                diarization = whisperx_diarize_service.send_to_whisperx_service(audio_file)
             
-            # Mettre à jour le job avec la transcription et le statut "COMPLETED"
-            job_service.complete_job(job_uuid, transcription)
+            # Mettre à jour le job avec la diarization et le statut "COMPLETED"
+            job_service.complete_job(job_uuid, diarization)
         
         except Exception as e:
             # En cas d'erreur, mettre à jour le statut du job en "FAILED"
