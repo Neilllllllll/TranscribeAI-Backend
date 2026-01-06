@@ -12,7 +12,7 @@ class TranscriptionService:
         }
         response = requests.post(f"{self.BASE_URL}/BatchTranscriptionService", files=files)
         response.raise_for_status()
-        return response.json().get("transcription")
+        return response.json()
     
     # Fonction pour annuler une transcription en cours (si supporté par le service Whisper
     def cancel_transcription(self, job_id: str) -> bool:
