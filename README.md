@@ -55,6 +55,8 @@ Les **Middlewares** sont une suite de fonctions exécutées successivement lors 
 
 ---
 
+### 🎬 Schémas (nettoie et complète)
+
 ### 🎬 Controllers (Le Gestionnaire d'Opérations)
 /app/Controllers
 ### Définition

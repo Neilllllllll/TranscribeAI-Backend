@@ -1,3 +1,2 @@
 from app.Middlewares.check_audio import check_audio
 from app.Middlewares.check_key_middleware import check_key_middleware
-from app.Middlewares.logger_middleware import logger_middleware

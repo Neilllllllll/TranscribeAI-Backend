@@ -1,13 +1,13 @@
 import time
-from app import create_app_worker_batch
-from app.Config.WorkerBatchConfig import WorkerBatchConfig
+from app import create_app_worker_diarization
+from app.Config.WorkerDiarizationConfig import WorkerDiarizationConfig
 
 def worker_loop():
     while True:
-        redis_queue_service = app.extensions['redis_batch_queue_service']
+        redis_queue_service = app.extensions['redis_diarization_queue_service']
         job_service = app.extensions['job_service']
         audio_manager = app.extensions['audio_manager']
-        whisper_batch_service = app.extensions['transcription_service']
+        whisperx_diarize_service = app.extensions['diarization_service']
 
         # Récupérer un job de la file d'attente Redis (bloquant)
         job_uuid = redis_queue_service.pop_job_blocking()
@@ -24,8 +24,8 @@ def worker_loop():
             with open(audio_file_path, 'rb') as f:
                 audio_file = f
                 # Envoyer le fichier audio au service Whisper pour transcription
-                # transcription = whisper_batch_service.send_to_whisper_service(audio_file)
-                transcription = "tr batch"
+                # transcription = whisperx_diarize_service.send_to_whisper_service(audio_file)
+                transcription = "tr diarize"
             
             # Mettre à jour le job avec la transcription et le statut "COMPLETED"
             job_service.complete_job(job_uuid, transcription)
@@ -45,11 +45,11 @@ def worker_loop():
 
 if __name__ == "__main__":
     # 1. On crée l'application Flask avec la configuration du worker
-    app = create_app_worker_batch(WorkerBatchConfig)
+    app = create_app_worker_diarization(WorkerDiarizationConfig)
 
     # 2. On entre dans le contexte de l'application Flask
     # Cela permet d'accéder à current_app.config, à la BDD, et charge les variables d'env
     with app.app_context():
-        print("🚀 Worker démarré avec le contexte de l'application Flask.")
+        print("🚀 Worker diarization demarré ")
         print(f"📂 Dossier Audio configuré : {app.config.get('AUDIO_STORAGE_PATH')}")
         worker_loop()
