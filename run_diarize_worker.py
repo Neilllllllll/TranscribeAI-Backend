@@ -25,8 +25,7 @@ def worker_loop():
                 audio_file = f
                 # Envoyer le fichier audio au service Whisperx pour diarization
                 diarization = whisperx_diarize_service.send_to_whisperx_service(audio_file)
-            
-            print(diarization)
+
             # Mettre à jour le job avec la diarization et le statut "COMPLETED"
             job_service.complete_job(job_uuid, diarization)
         

@@ -57,7 +57,6 @@ def getBatchTranscriptionByUuid():
     elif job.status == "FAILED":
         return Helpers.error("La transcription a échouée", 500)
     else:
-        job_service.delete_job(job_uuid)
         # Calcul du temps de la transcription en seconde 
         transcription_duration = 0
         if job.end_at and job.created_at:
