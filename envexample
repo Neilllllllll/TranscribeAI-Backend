@@ -13,4 +13,4 @@ FORMAT_AUDIO_ALLOWED=wav,mp3,ogg,m4a
 WHISPER_SERVICE_URL=http://localhost:5001/BatchTranscriptionService
 
 # WorkerDiarizationConfig
-WHISPERX_SERVICE_URL=http://localhost:5002/DiarizationTranscriptionService
+WHISPERX_SERVICE_URL=http://localhost:5001

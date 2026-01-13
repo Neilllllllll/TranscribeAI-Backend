@@ -20,7 +20,6 @@ def worker_loop():
             # Récupérer le chemin du fichier audio depuis la base de données
             job = job_service.get_job_by_uuid(job_uuid)
             audio_file_path = job.file_path
-            time.sleep(5)
             with open(audio_file_path, 'rb') as f:
                 audio_file = f
                 # Envoyer le fichier audio au service Whisperx pour diarization
