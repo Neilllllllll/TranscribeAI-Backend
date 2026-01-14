@@ -8,5 +8,5 @@ class APIConfig(BaseConfig.BaseConfig):
     # Lié à l'upload des fichiers audio
     raw_formats = os.getenv("FORMAT_AUDIO_ALLOWED", "wav,mp3,ogg,m4a")
     FORMAT_AUDIO_ALLOWED = {f.strip() for f in raw_formats.split(",")}
-    MAX_AUDIO_SIZE_MB = int(os.getenv("MAX_AUDIO_SIZE_MB", "20"))
+    MAX_AUDIO_SIZE_MB = int(os.getenv("MAX_AUDIO_SIZE_MB", "200"))
 

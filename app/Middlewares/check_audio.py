@@ -14,6 +14,7 @@ Décorateur qui vérifie l'authenticité d'un fichier audio :
 def check_audio(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
+        print("Vérification du fichier audio...")
         file = request.files.get('audioFile')
         
         # 1. Présence et Nom
