@@ -61,7 +61,8 @@ def getDiarizationByUuid():
         diarization_duration = 0
         if job.end_at and job.created_at:
             diarization_duration = (job.end_at - job.created_at).total_seconds()
-
+        # Supprimer le job après récupération à voir comment gérer ça plus tard
+        job_service.delete_job(job.uuid)
         return Helpers.success({
             "job_id": job.uuid,
             "status": job.status,
