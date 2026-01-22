@@ -17,14 +17,23 @@ def worker_loop():
         job_service.update_status(job_uuid, "PROCESSING")
         
         try:
-            # Récupérer le chemin du fichier audio depuis la base de données
+            # Récupérer le job depuis la base de données
             job = job_service.get_job_by_uuid(job_uuid)
+
+            max_speakers = job.settings.get('max_speakers', None)
+            min_speakers = job.settings.get('min_speakers', None)
+
+            params = {
+                "min_speakers": min_speakers,
+                "max_speakers": max_speakers
+            }
+
             audio_file_path = job.file_path
             with open(audio_file_path, 'rb') as f:
                 audio_file = f
                 # Envoyer le fichier audio au service Whisperx pour diarization
-                diarization = whisperx_diarize_service.send_to_whisperx_service(audio_file)
-
+                diarization = whisperx_diarize_service.send_to_whisperx_service(audio_file, params)
+                
             # Mettre à jour le job avec la diarization et le statut "COMPLETED"
             job_service.complete_job(job_uuid, diarization)
         

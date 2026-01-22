@@ -6,10 +6,11 @@ class DiarizationService:
         self.BASE_URL = BASE_URL
 
     # Fonction pour envoyer le fichier audio au service Whisper et obtenir la transcription
-    def send_to_whisperx_service(self, audio_file) -> str:
+    def send_to_whisperx_service(self, audio_file, params) -> str:
         files = {
             "audioFile": audio_file
         }
-        response = requests.post(f"{self.BASE_URL}/diarize", files=files)
+        response = requests.post(f"{self.BASE_URL}/diarize", files=files, data=params)
         response.raise_for_status()
         return response.json()
+    
