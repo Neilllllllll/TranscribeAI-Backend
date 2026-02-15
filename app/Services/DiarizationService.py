@@ -10,7 +10,10 @@ class DiarizationService:
         files = {
             "audioFile": audio_file
         }
-        response = requests.post(f"{self.BASE_URL}/diarize", files=files, data=params)
+        data = {
+            "min_speakers": params.get("min_speakers"),
+            "max_speakers": params.get("max_speakers")
+        }
+        response = requests.post(f"{self.BASE_URL}/diarize", files=files, data=data)
         response.raise_for_status()
         return response.json()
-    
