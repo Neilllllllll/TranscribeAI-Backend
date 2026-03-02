@@ -38,9 +38,9 @@ def createBatchJob():
 def getBatchTranscriptionByUuid():
 
     # Récupérer l'UUID du job depuis les paramètres de la requête
-    job_uuid = request.args.get('job_uuid')
+    job_uuid = request.args.get('job_id')
     if not job_uuid:
-        return Helpers.error("Missing job_id parameter", 400)
+        return Helpers.error("Il manque le paramètre job_id", 400)
 
     # Contacter le service de gestion des jobs pour obtenir le statut et la transcription
     job_service = current_app.extensions['job_service']
