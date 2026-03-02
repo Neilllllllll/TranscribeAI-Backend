@@ -10,15 +10,15 @@ def worker_loop():
         whisper_batch_service = app.extensions['transcription_service']
 
         # Récupérer un job de la file d'attente Redis (bloquant)
-        job_uuid = redis_queue_service.pop_job_blocking()
-        print(f"Traitement du job {job_uuid}...")
+        job_id = redis_queue_service.pop_job_blocking()
+        print(f"Traitement du job {job_id}...")
         
         # Mettre à jour le statut du job en "IN_PROGRESS"
-        job_service.update_status(job_uuid, "PROCESSING")
+        job_service.update_status(job_id, "PROCESSING")
         
         try:
             # Récupérer le chemin du fichier audio depuis la base de données
-            job = job_service.get_job_by_uuid(job_uuid)
+            job = job_service.get_job_by_id(job_id)
             audio_file_path = job.file_path
             time.sleep(5)
             with open(audio_file_path, 'rb') as f:
@@ -27,12 +27,12 @@ def worker_loop():
                 transcription = whisper_batch_service.send_to_whisper_service(audio_file)
             
             # Mettre à jour le job avec la transcription et le statut "COMPLETED"
-            job_service.complete_job(job_uuid, transcription)
+            job_service.complete_job(job_id, transcription)
         
         except Exception as e:
             # En cas d'erreur, mettre à jour le statut du job en "FAILED"
-            job_service.fail_job(job_uuid)
-            print(f"Erreur lors du traitement du job {job_uuid}: {e}")
+            job_service.fail_job(job_id)
+            print(f"Erreur lors du traitement du job {job_id}: {e}")
 
         finally:
             # Supprimer le fichier audio après traitement
