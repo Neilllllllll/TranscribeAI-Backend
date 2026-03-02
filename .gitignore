@@ -5,3 +5,4 @@ venv/
 TEMP_AUDIO_FOLDER/
 __pycache__/
 *.py[cod]
+audio_files/

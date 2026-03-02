@@ -5,13 +5,13 @@ from app import db
 
 class Job(db.Model):
     __tablename__ = "job"
-    uuid = db.Column(db.String(255), primary_key=True)
+    id = db.Column(db.String(255), primary_key=True)
 
     type = db.Column(
         Enum("BATCH", "DIARIZATION", name="job_type"),
         nullable=False
     )
-
+    
     status = db.Column(
         Enum("PENDING", "PROCESSING", "COMPLETED", "FAILED", name="job_status"),
         nullable=False,
@@ -26,7 +26,7 @@ class Job(db.Model):
 
     def to_dict(self):
         return {
-            "uuid": self.uuid,
+            "id": self.id,
             "type": self.type,
             "status": self.status,
             "result": self.result,
