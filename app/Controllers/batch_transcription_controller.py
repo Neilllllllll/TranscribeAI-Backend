@@ -6,12 +6,12 @@ from app.Schemas import TranscriptionBatchSchema
 # Créer un job et retourne son uuid
 def createBatchJob():
     # Validation des données reçues
-    is_valid, result = TranscriptionBatchSchema.check_params(request.form)
+    is_valid, message = TranscriptionBatchSchema.check_params(request.form)
     
     if not is_valid:
-        return {"errors": result}, 400
+        return Helpers.error(message=message, status_code=400)
     
-    batch_settings = result
+    batch_settings = message
     
     # Récupère les services qui nous interesse 
     audio_manager = current_app.extensions['audio_manager']
@@ -32,7 +32,7 @@ def createBatchJob():
     # Enqueue le job dans redis
     redis_queue_service.enqueue_job(job_uuid)
 
-    return Helpers.success({"job_uuid": job_uuid, "status" : "Votre demande de transcription est dans la file d'attente"}, 200)
+    return Helpers.success({"job_id": job_uuid, "message" : "Votre demande de transcription est dans la file d'attente"}, 200)
 
 # Récupérer la transcription par UUID
 def getBatchTranscriptionByUuid():
@@ -55,6 +55,7 @@ def getBatchTranscriptionByUuid():
     elif job.status == "PROCESSING":
         return Helpers.success({"job_id": job.uuid,"status": job.status,})
     elif job.status == "FAILED":
+        job_service.delete_job(job.uuid)
         return Helpers.error("La transcription a échouée", 500)
     else:
         # Calcul du temps de la transcription en seconde 
@@ -68,4 +69,4 @@ def getBatchTranscriptionByUuid():
             "status": job.status,
             "result": job.result,
             "transcription_time": transcription_duration
-        }, 200)  
+        }, 200)
